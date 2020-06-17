@@ -42,7 +42,10 @@ class FileUpload extends Component
 
     public function render()
     {
-        $savedFiles = collect(Storage::disk('public')->allFiles());
+        $savedFiles = collect(Storage::disk('public')->allFiles())
+            ->map(function ($path) {
+                return Storage::disk('public')->url($path);
+            });
 
         return view('livewire.file-upload')
             ->with('savedFiles', $savedFiles);
